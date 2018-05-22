@@ -6,9 +6,9 @@ class Grafo:
         self.listaVertices = {}
         self.numVertices = 0
 
-    def agregarVertice(self, clave):
+    def agregarVertice(self, clave, color):
         self.numVertices = self.numVertices + 1
-        nuevoVertice = Vertice.Vertice(clave)
+        nuevoVertice = Vertice.Vertice(clave, color)
         self.listaVertices[clave] = nuevoVertice
         return nuevoVertice
 
