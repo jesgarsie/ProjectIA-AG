@@ -18,3 +18,6 @@ class Vertice:
 
     def obtenerPonderacion(self, vecino):
         return self.conectadoA[vecino]
+
+    def obtenerColor(self):
+        return self.color

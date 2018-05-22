@@ -27,6 +27,7 @@ class Grafo:
         if a not in self.listaVertices:
             nv = self.agregarVertice(a)
         self.listaVertices[de].agregarVecino(self.listaVertices[a], costo)
+        self.listaVertices[a].agregarVecino(self.listaVertices[de], costo)
 
     def obtenerVertices(self):
         return self.listaVertices.keys()
