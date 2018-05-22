@@ -19,10 +19,14 @@ random.seed(12345)  # Semilla para el mecanismo de generación de números aleat
 #Mostramos por pantalla la lista de colores
 print(caja_de_herramientas.individuo())
 
+# Creamos la lista de colores aleatoria
 colores = caja_de_herramientas.individuo()
+
+#Agregamos los vértices, cada vértice un color de la lista
 for i in range(6):
     g.agregarVertice(i, colores[i])
 
+#Mostramos por pantalla cada vértice y su color
 for j in g:
     print("(Vertice: %s, Color: %s)" % (j.obtenerId(), j.obtenerColor()))
 
