@@ -18,10 +18,13 @@ random.seed(12345)  # Semilla para el mecanismo de generación de números aleat
 
 print(caja_de_herramientas.individuo())
 
+colores = caja_de_herramientas.individuo()
 for i in range(6):
-    g.agregarVertice(i, caja_de_herramientas.individuo)
+    g.agregarVertice(i, colores[i])
 
-print(g.listaVertices)
+for j in g:
+    print("(Vertice: %s, Color: %s)" % (j.obtenerId(), j.obtenerColor()))
+
 
 g.agregarArista(0, 1, 5)
 g.agregarArista(0, 5, 2)
