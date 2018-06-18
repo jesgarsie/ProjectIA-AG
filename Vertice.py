@@ -11,7 +11,7 @@ class Vertice:
         return str(self.id) + ' conectadoA: ' + str([x.id for x in self.conectadoA])
 
     def obtenerConexiones(self):
-        return self.conectadoA.keys()
+        return self.conectadoA
 
     def obtenerId(self):
         return self.id

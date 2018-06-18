@@ -16,7 +16,7 @@ caja_de_herramientas.register('individuo', tools.initRepeat,
                               container=creator.Individuo, func=caja_de_herramientas.gen, n=6)
 
 # Semilla para el mecanismo de generación de números aleatorios
-random.seed(random.randrange(64865468418416881894))
+random.seed(random.randrange(1234556798))
 
 # Creamos la lista de colores aleatoria
 colores = caja_de_herramientas.individuo()
@@ -24,39 +24,43 @@ colores = caja_de_herramientas.individuo()
 # Mostramos la lista de colores
 print(colores)
 
-def fenotipo(individuo):
+def fenotipo(grafo):
     C1 = []
     C2 = []
     C3 = []
     for i in range(6):
-        if individuo[i] == 0:
-            C1.append(i)
-        elif individuo[i] == 1:
-            C2.append(i)
+        if grafo.obtenerVertice(i).color == 0:
+            C1.append(grafo.obtenerVertice(i))
+        elif grafo.obtenerVertice(i).color == 1:
+            C2.append(grafo.obtenerVertice(i))
         else:
-            C3.append(i)
+            C3.append(grafo.obtenerVertice(i))
     return (C1, C2, C3)
 
-def evaluar_individuo(individuo):
-    C1, C2, C3 = fenotipo(individuo)
+def evaluar_individuo(grafo):
+    C1, C2, C3 = fenotipo(grafo)
     res = 0
 
     for i in C1:
-        for j in i.obtenerConexiones:
+        vecinos = list(i.obtenerConexiones())
+        for j in vecinos:
             if C1.__contains__(j):
                 res = res + 50
 
     for k in C2:
-        for l in j.obtenerConexiones:
+        vecinos = list(k.obtenerConexiones())
+        for l in vecinos:
             if C2.__contains__(l):
                 res = res + 50
 
     for n in C3:
-        for m in n.obtenerConexiones:
+        vecinos = list(n.obtenerConexiones())
+        for m in vecinos:
             if C3.__contains__(m):
                 res = res + 50
     return res
 
+caja_de_herramientas.register('evaluate', evaluar_individuo)
 #Agregamos los vértices, cada vértice un color de la lista
 for i in range(6):
     g.agregarVertice(i, colores[i])
@@ -80,3 +84,6 @@ g.agregarArista(5, 2, 0)
 for v in g:
     for w in v.obtenerConexiones():
         print("( %s , %s )" % (v.obtenerId(), w.obtenerId()))
+
+
+print(caja_de_herramientas.evaluate(g))
