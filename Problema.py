@@ -9,18 +9,20 @@ g = Grafo.Grafo()
 creator.create('Fitness', base.Fitness, weights=(-1.0,))
 creator.create('Individuo', list, fitness = creator.Fitness)
 
+# Limitamos los colores a 3
 caja_de_herramientas = base.Toolbox()
 caja_de_herramientas.register('gen', random.randint, 0, 2)
 caja_de_herramientas.register('individuo', tools.initRepeat,
                               container=creator.Individuo, func=caja_de_herramientas.gen, n=6)
 
-random.seed(12345)  # Semilla para el mecanismo de generación de números aleatorios
-
-#Mostramos por pantalla la lista de colores
-print(caja_de_herramientas.individuo())
+# Semilla para el mecanismo de generación de números aleatorios
+random.seed(random.randrange(64865468418416881894))
 
 # Creamos la lista de colores aleatoria
 colores = caja_de_herramientas.individuo()
+
+# Mostramos la lista de colores
+print(colores)
 
 #Agregamos los vértices, cada vértice un color de la lista
 for i in range(6):
