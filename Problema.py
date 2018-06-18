@@ -24,6 +24,39 @@ colores = caja_de_herramientas.individuo()
 # Mostramos la lista de colores
 print(colores)
 
+def fenotipo(individuo):
+    C1 = []
+    C2 = []
+    C3 = []
+    for i in range(6):
+        if individuo[i] == 0:
+            C1.append(i)
+        elif individuo[i] == 1:
+            C2.append(i)
+        else:
+            C3.append(i)
+    return (C1, C2, C3)
+
+def evaluar_individuo(individuo):
+    C1, C2, C3 = fenotipo(individuo)
+    res = 0
+
+    for i in C1:
+        for j in i.obtenerConexiones:
+            if C1.__contains__(j):
+                res = res + 50
+
+    for k in C2:
+        for l in j.obtenerConexiones:
+            if C2.__contains__(l):
+                res = res + 50
+
+    for n in C3:
+        for m in n.obtenerConexiones:
+            if C3.__contains__(m):
+                res = res + 50
+    return res
+
 #Agregamos los vértices, cada vértice un color de la lista
 for i in range(6):
     g.agregarVertice(i, colores[i])
