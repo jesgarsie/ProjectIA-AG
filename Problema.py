@@ -34,32 +34,34 @@ caja_de_herramientas.register('individuo', tools.initRepeat,
 #  Semilla aleatoria
 random.seed(random.randrange(1234556798))
 
+# Creamos la lista de colores generada a partir de la semilla
+colores = caja_de_herramientas.individuo()
 
 # Evaluamos que la lista de colores tenga al menos 3 colores
-def comprobacionColores():
-    # Creamos la lista de colores generada a partir de la semilla
-    colores = caja_de_herramientas.individuo()
+def comprobacionColores(colorss):
     C1 = []
     C2 = []
     C3 = []
-    for i in range(colores.__len__()):
-        if colores[i] == 0:
-            C1.append(colores[i])
-        elif colores[i] == 1:
-            C2.append(colores[i])
+    for i in range(colorss.__len__()):
+        if colorss[i] == 0:
+            C1.append(colorss[i])
+        elif colorss[i] == 1:
+            C2.append(colorss[i])
         else:
-            C3.append(colores[i])
+            C3.append(colorss[i])
 
     if ((C1.__len__() > 0) and (C2.__len__() > 0) and (C3.__len__() > 0)):
         # Mostramos la lista de colores
-        print(colores)
-        return colores
+        print(colorss)
+        return colorss
     else:
-        return comprobacionColores()
+        colores = caja_de_herramientas.individuo()
+        return comprobacionColores(colores)
 
 
-colors = comprobacionColores()
+colors = comprobacionColores(colores)
 
+comprobacionColores(colores)
 
 def fenotipo(grafo):
     C1 = []
@@ -127,7 +129,7 @@ def ejecutarAlgoritmo(grafo):
     TEMP_0 = 10000
     print(caja_de_herramientas.mutate(colors))
     repeticiones = 0
-    while TEMP_0 <=100 or repeticiones <= 30:
+    while TEMP_0 <= 100 or repeticiones <= 13:
         nuevosColores = caja_de_herramientas.mutate(colors)
         nuevoGrafo = generarGrafo(nuevosColores[0])
         if evaluar_individuo(nuevoGrafo) == 0:
