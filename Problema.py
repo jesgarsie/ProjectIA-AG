@@ -5,37 +5,64 @@ from deap import base, creator, tools, algorithms
 
 # Inicializamos el Grafo
 g = Grafo.Grafo()
+path = "C:\\Users\\jesus\\Desktop\\grafo.txt"
 
 
 # Generamos el grafo desde el fichero
 def inicializacion(path):
     graph = Grafo.Grafo()
     with open(path, mode='r') as f:
+        i = 0
         for line in f.readlines():
-            if line.split()[0] == 'e':
-                _, w1, w2, _ = line.split()
+            if line.split()[0] == 'A':
+                _, w1, w2 = line.split()
                 if w1 != w2:
-                    graph.edges.append((int(w1), int(w2)))
-            elif line.split()[0] == 'n':
-                _, w, _ = line.split()
-                graph.vertices.append(int(w))
+                    graph.agregarArista(int(w1), int(w2), 0)
+            elif line.split()[0] == 'V':
+                _, w = line.split()
+                graph.agregarVertice(int(w), 1)
+                i = i + 1
 
-    g = graph
+    return graph
+
+
+g = inicializacion(path)
+
+print(g.listaVertices)
 
 creator.create('Fitness', base.Fitness, weights=(-1.0,))
 creator.create('Individuo', list, fitness = creator.Fitness)
+
 
 # Limitamos los colores a 3
 caja_de_herramientas = base.Toolbox()
 caja_de_herramientas.register('gen', random.randint, 0, 2)
 caja_de_herramientas.register('individuo', tools.initRepeat,
-                              container=creator.Individuo, func=caja_de_herramientas.gen, n=6)
+                              container=creator.Individuo, func=caja_de_herramientas.gen, n=g.numVertices)
+
 
 #  Semilla aleatoria
 random.seed(random.randrange(1234556798))
 
 # Creamos la lista de colores generada a partir de la semilla
 colores = caja_de_herramientas.individuo()
+print(colores)
+
+
+# Agregamos los vértices, cada vértice un color de la lista
+def generarGrafo(assignamenColors):
+    # Inicializamos el Grafo
+    gra = Grafo.Grafo()
+    for i in range(g.numVertices):
+        gra.agregarVertice(i, assignamenColors[i])
+
+    for i in g.listaVertices:
+        vecinos = list(g.obtenerVertice(i).obtenerConexiones())
+        for j in vecinos:
+            gra.agregarArista(i, j, 0)
+    return gra
+
+
 
 # Evaluamos que la lista de colores tenga al menos 3 colores
 def comprobacionColores(colorss):
@@ -55,13 +82,14 @@ def comprobacionColores(colorss):
         print(colorss)
         return colorss
     else:
-        colores = caja_de_herramientas.individuo()
-        return comprobacionColores(colores)
+        colores2 = caja_de_herramientas.individuo()
+        return comprobacionColores(colores2)
 
 
 colors = comprobacionColores(colores)
 
-comprobacionColores(colores)
+g = generarGrafo(colors)
+
 
 def fenotipo(grafo):
     C1 = []
@@ -100,24 +128,6 @@ def evaluar_individuo(grafo):
     return res
 
 caja_de_herramientas.register('evaluate', evaluar_individuo)
-#Agregamos los vértices, cada vértice un color de la lista
-def generarGrafo(assignamenColors):
-    # Inicializamos el Grafo
-    g = Grafo.Grafo()
-    for i in range(6):
-        g.agregarVertice(i, assignamenColors[i])
-
-
-    # Agregamos las aristas que unen los vértices del grafo
-    g.agregarArista(0, 1, 0)
-    g.agregarArista(0, 5, 0)
-    g.agregarArista(1, 2, 0)
-    g.agregarArista(2, 3, 0)
-    g.agregarArista(3, 4, 0)
-    g.agregarArista(3, 5, 0)
-    g.agregarArista(4, 0, 0)
-    g.agregarArista(5, 2, 0)
-    return g
 
 
 
@@ -149,4 +159,4 @@ def ejecutarAlgoritmo(grafo):
     return grafo
 
 
-ejecutarAlgoritmo(generarGrafo(colors))
+ejecutarAlgoritmo(g)

@@ -21,11 +21,11 @@ class Grafo:
     def __contains__(self, n):
         return n in self.listaVertices
 
-    def agregarArista(self, de, a, costo=0):
+    def agregarArista(self, de, a, c, costo=0):
         if de not in self.listaVertices:
-            nv = self.agregarVertice(de)
+            nv = self.agregarVertice(de, c)
         if a not in self.listaVertices:
-            nv = self.agregarVertice(a)
+            nv = self.agregarVertice(a, c)
         self.listaVertices[de].agregarVecino(self.listaVertices[a], costo)
         self.listaVertices[a].agregarVecino(self.listaVertices[de], costo)
 
