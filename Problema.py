@@ -3,8 +3,7 @@ import Vertice
 import random
 from deap import base, creator, tools, algorithms
 
-# Inicializamos el Grafo
-g = Grafo.Grafo()
+
 
 creator.create('Fitness', base.Fitness, weights=(-1.0,))
 creator.create('Individuo', list, fitness = creator.Fitness)
@@ -62,28 +61,49 @@ def evaluar_individuo(grafo):
 
 caja_de_herramientas.register('evaluate', evaluar_individuo)
 #Agregamos los vértices, cada vértice un color de la lista
-for i in range(6):
-    g.agregarVertice(i, colores[i])
-
-#Mostramos por pantalla cada vértice y su color
-for j in g:
-    print("(Vertice: %s, Color: %s)" % (j.obtenerId(), j.obtenerColor()))
-
-# Agregamos las aristas que unen los vértices del grafo
-g.agregarArista(0, 1, 0)
-g.agregarArista(0, 5, 0)
-g.agregarArista(1, 2, 0)
-g.agregarArista(2, 3, 0)
-g.agregarArista(3, 4, 0)
-g.agregarArista(3, 5, 0)
-g.agregarArista(4, 0, 0)
-g.agregarArista(5, 4, 0)
-g.agregarArista(5, 2, 0)
-
-#Mostramos por pantalla las adyacencias de los vértices
-for v in g:
-    for w in v.obtenerConexiones():
-        print("( %s , %s )" % (v.obtenerId(), w.obtenerId()))
+def generarGrafo(assignamenColors):
+    # Inicializamos el Grafo
+    g = Grafo.Grafo()
+    for i in range(6):
+        g.agregarVertice(i, assignamenColors[i])
 
 
-print(caja_de_herramientas.evaluate(g))
+    # Agregamos las aristas que unen los vértices del grafo
+    g.agregarArista(0, 1, 0)
+    g.agregarArista(0, 5, 0)
+    g.agregarArista(1, 2, 0)
+    g.agregarArista(2, 3, 0)
+    g.agregarArista(3, 4, 0)
+    g.agregarArista(3, 5, 0)
+    g.agregarArista(4, 0, 0)
+    g.agregarArista(5, 2, 0)
+    return g
+
+
+
+
+caja_de_herramientas.register('mutate', tools.mutFlipBit, indpb=0.2)
+# indpb es la probabilidad de mutación de cada gen del cromosoma
+def ejecutarAlgoritmo(grafo):
+    # Temperatura Inicial
+    TEMP_0 = 10000
+    print(caja_de_herramientas.mutate(colores))
+    repeticiones = 0
+    while TEMP_0 <=100 or repeticiones <= 30:
+        nuevosColores = caja_de_herramientas.mutate(colores)
+        nuevoGrafo = generarGrafo(nuevosColores[0])
+        if evaluar_individuo(nuevoGrafo) == 0:
+            print(evaluar_individuo(nuevoGrafo))
+            grafo = nuevoGrafo
+            return grafo
+        else:
+            if caja_de_herramientas.evaluate(nuevoGrafo) < caja_de_herramientas.evaluate(grafo):
+                TEMP_0 = TEMP_0 - (caja_de_herramientas.evaluate(grafo) - caja_de_herramientas.evaluate(nuevoGrafo)) -10
+                grafo = nuevoGrafo
+                repeticiones = 0
+            else:
+                repeticiones = repeticiones+1
+        print(evaluar_individuo(grafo))
+    return grafo
+
+ejecutarAlgoritmo(generarGrafo(colores))
