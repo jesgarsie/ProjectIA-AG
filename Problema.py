@@ -129,20 +129,22 @@ def ejecutarAlgoritmo(grafo):
     TEMP_0 = 10000
     print(caja_de_herramientas.mutate(colors))
     repeticiones = 0
-    while TEMP_0 <= 100 or repeticiones <= 13:
+    while TEMP_0 <=100 or repeticiones <= 1000:
         nuevosColores = caja_de_herramientas.mutate(colors)
-        nuevoGrafo = generarGrafo(nuevosColores[0])
-        if evaluar_individuo(nuevoGrafo) == 0:
-            print(evaluar_individuo(nuevoGrafo))
-            grafo = nuevoGrafo
-            return grafo
-        else:
+        nuevosColores = comprobacionColores(nuevosColores)
+        nuevoGrafo = generarGrafo(nuevosColores)
+        if evaluar_individuo(nuevoGrafo) != 0:
             if caja_de_herramientas.evaluate(nuevoGrafo) < caja_de_herramientas.evaluate(grafo):
-                TEMP_0 = TEMP_0 - (caja_de_herramientas.evaluate(grafo) - caja_de_herramientas.evaluate(nuevoGrafo)) -10
+                TEMP_0 = TEMP_0 - (caja_de_herramientas.evaluate(grafo) - caja_de_herramientas.evaluate(nuevoGrafo))
                 grafo = nuevoGrafo
                 repeticiones = 0
+                print(nuevosColores)
             else:
                 repeticiones = repeticiones+1
+        else:
+            print(evaluar_individuo(nuevoGrafo))
+            grafo = nuevoGrafo
+            break
         print(evaluar_individuo(grafo))
     return grafo
 
