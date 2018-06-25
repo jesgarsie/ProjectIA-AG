@@ -55,11 +55,11 @@ def generarGrafo(assignamenColors):
     gra = Grafo.Grafo()
     for i in range(g.numVertices):
         gra.agregarVertice(i, assignamenColors[i])
+    for j in g.listaVertices:
+        vecinos = g.obtenerVertice(j).obtenerConexiones()
+        for h in vecinos:
+            gra.agregarArista(j, h.id, 0)
 
-    for i in g.listaVertices:
-        vecinos = list(g.obtenerVertice(i).obtenerConexiones())
-        for j in vecinos:
-            gra.agregarArista(i, j, 0)
     return gra
 
 
@@ -95,7 +95,7 @@ def fenotipo(grafo):
     C1 = []
     C2 = []
     C3 = []
-    for i in range(6):
+    for i in range(grafo.numVertices):
         if grafo.obtenerVertice(i).color == 0:
             C1.append(grafo.obtenerVertice(i))
         elif grafo.obtenerVertice(i).color == 1:
