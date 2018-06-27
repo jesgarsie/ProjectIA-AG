@@ -2,7 +2,6 @@ import Problema
 import tkinter as tk
 import tkinter
 
-tkinter._test()
 from tkinter import ttk
 from tkinter import *
 
