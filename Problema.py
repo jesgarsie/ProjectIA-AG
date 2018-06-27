@@ -158,7 +158,7 @@ class Problema:
             if grafoFitness != 0 and nuevoGrafoFitness0 !=0:
                 nuevoGrafoFitness = self.caja_de_herramientas.evaluate(nuevoGrafo)
                 grafoOri = self.caja_de_herramientas.evaluate(grafo)
-                if  nuevoGrafoFitness <= grafoOri:
+                if  nuevoGrafoFitness < grafoOri:
                     TEMP_0 = TEMP_0 - (self.caja_de_herramientas.evaluate(grafo) - self.caja_de_herramientas.evaluate(nuevoGrafo))
                     grafo = nuevoGrafo
                     repeticiones = 0
