@@ -179,4 +179,4 @@ class Problema:
         print(self.evaluar_individuo(grafo))
         print("Temperatura:")
         print(TEMP_0)
-        return grafo
+        return nuevosColores
